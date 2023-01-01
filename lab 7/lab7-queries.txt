@@ -1,0 +1,34 @@
+INSERT INTO ticket (pnr, train_no, travel_date, passenger_id,
+arrival_time, departure_time, train_type, compartment_type,
+compartment_no, age, arrival, departure)
+VALUES ('PNR021', 62621, '2021-10-22', 'USR_008', '20:30:00',
+'16:00:00', 'Superfast', 'I Class', 'F01', null, 'Chennai',
+'Bengaluru' );
+
+//NEW
+INSERT INTO ticket (pnr, train_no, travel_date, passenger_id,
+arrival_time, departure_time, train_type, compartment_type,
+compartment_no, arrival, departure)
+VALUES ('PNR021', 62621, '2021-10-22', 'USR_008', '20:30:00',
+'16:00:00', 'Superfast', 'I Class', 'F01', 'Chennai',
+'Bengaluru' );
+
+
+Select user_id, user_type, firstname, lastname from ticket, train_user where ticket.passenger_id = train_user.user_id and departure='Bengaluru' and arrival='Chennai' and (travel_date like '2021-10-%' )
+UNION
+Select user_id, user_type, firstname, lastname from ticket, train_user where ticket.passenger_id = train_user.user_id and departure='Bengaluru' and arrival='Chennai' and (travel_date like '2022-08-%' );
+
+Select user_id, user_type, firstname, lastname from ticket, train_user where ticket.passenger_id = train_user.user_id and departure='Bengaluru' and arrival='Chennai' and (travel_date like '2021-10-%')
+INTERSECT
+Select user_id, user_type, firstname, lastname from ticket, train_user where ticket.passenger_id = train_user.user_id and departure='Bengaluru' and arrival='Chennai' and (travel_date like '2022-08-%');
+
+Select user_id, user_type, firstname, lastname from ticket, train_user where ticket.passenger_id = train_user.user_id and departure='Bengaluru' and arrival='Chennai' and (travel_date like '2022-08-%')
+EXCEPT
+Select user_id, user_type, firstname, lastname from ticket, train_user where ticket.passenger_id = train_user.user_id and departure='Bengaluru' and arrival='Chennai' and (travel_date like '2021-10-%');
+
+Select user_id, user_type, firstname, lastname from ticket as t1, train_user where t1.passenger_id = train_user.user_id and departure='Bengaluru' and arrival='Chennai' and user_id IN
+(select user_id from train_user, ticket as t2 where t2.passenger_id = train_user.user_id and arrival='Bengaluru' and t2.travel_date-t1.travel_date <=7);
+
+Select user_id, user_type, firstname, lastname from ticket, train_user where ticket.passenger_id = train_user.user_id and departure='Bengaluru' and arrival='Chennai'
+EXCEPT
+Select user_id, user_type, firstname, lastname from ticket, train_user where ticket.passenger_id = train_user.user_id and arrival='Bengaluru';
